@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nav-audit-config
+  labels:
+    app: nav-quarkus-audit
+data:
+  DB_HOST: nav-quarkus-audit-postgres
+  DB_USERNAME: postgres
+  DB_NAME: nav-audit
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nav-audit-secret
+  labels:
+    app: nav-quarkus-audit
+data:
+  DB_PASSWORD: cG9zdGdyZXM=
