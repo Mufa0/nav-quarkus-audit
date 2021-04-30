@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nav-quarkus-audit-postgres
+  name: nav-quarkus-audit-postgres-service
   labels:
-    app: nav-quarkus-audit
+    database: nav-quarkus-audit-postgres
 spec:
   selector:
-    app: nav-quarkus-audit
+    database: nav-quarkus-audit-postgres
   ports:
     - port: 5432
   type: NodePort
@@ -17,16 +17,16 @@ kind: Deployment
 metadata:
   name: nav-quarkus-audit-postgres
   labels:
-    app: nav-quarkus-audit
+    database: nav-quarkus-audit-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nav-quarkus-audit
+      database: nav-quarkus-audit-postgres
   template:
     metadata:
       labels:
-        app: nav-quarkus-audit
+        database: nav-quarkus-audit-postgres
     spec:
       containers:
         - name: nav-quarkus-audit-postgres

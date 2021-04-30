@@ -4,8 +4,9 @@ metadata:
   name: nav-audit-config
   labels:
     app: nav-quarkus-audit
+    database: nav-quarkus-audit-postgres
 data:
-  DB_HOST: nav-quarkus-audit-postgres
+  DB_HOST: nav-quarkus-audit-postgres-service
   DB_USERNAME: postgres
   DB_NAME: nav-audit
 
@@ -16,5 +17,6 @@ metadata:
   name: nav-audit-secret
   labels:
     app: nav-quarkus-audit
+    database: nav-quarkus-audit-postgres
 data:
   DB_PASSWORD: cG9zdGdyZXM=
