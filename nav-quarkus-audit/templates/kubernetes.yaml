@@ -1,0 +1,50 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{.Release.Name}}-{{.Chart.Name}}
+  name: {{.Release.Name}}-{{.Chart.Name}}-service
+spec:
+  ports:
+  - name: http
+    port: {{.Values.app.port}}
+    targetPort: {{.Values.app.port}}
+  selector:
+    app: {{.Release.Name}}-{{.Chart.Name}}
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{.Release.Name}}-{{.Chart.Name}}
+  name: {{.Release.Name}}-{{.Chart.Name}}-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}-{{.Chart.Name}}
+  template:
+    metadata:
+      labels:
+        app: {{.Release.Name}}-{{.Chart.Name}}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        envFrom:
+        - secretRef:
+            name: {{.Release.Name}}-{{.Chart.Name}}-secret
+        - configMapRef:
+            name: {{.Release.Name}}-{{.Chart.Name}}-config
+        image: {{.Values.app.image.url}}:{{.Values.app.image.tag}}
+        imagePullPolicy: {{.Values.app.image.pullPolicy}}
+        name: {{.Release.Name}}-{{.Chart.Name}}
+        ports:
+        - containerPort: {{.Values.app.port}}
+          name: http
+          protocol: TCP
